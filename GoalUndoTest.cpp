@@ -16,5 +16,6 @@ class GoalUndoTest : public ::testing::Test
 
 TEST(GoalUndoTest, sanityCheck)
 {
+	GoalUndo gTest;
 	ASSERT_TRUE(true);
 }
