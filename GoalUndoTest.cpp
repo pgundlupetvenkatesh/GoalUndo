@@ -173,11 +173,11 @@ TEST(GoalUndoTest, undoGoalEmpty)
 TEST(GoalUndoTest, addOpundoOpUndoGoal)
 {
 	GoalUndo gTest;
-	gTest.addOperation("BuildMotorBike", "operationOne");
-	gTest.addOperation("operationTwo");
-	gTest.addOperation("operationThree");
-	gTest.addOperation("operationFour");
-	gTest.undoOperation("operationThree");
+	gTest.addOperation("BuildMotorBike", "BuildChassis");
+	gTest.addOperation("BuildEngine");
+	gTest.addOperation("FixTyre");
+	gTest.addOperation("PaintJob");
+	gTest.undoOperation("FixTyre");
 	gTest.undoOperation();
 	gTest.undoGoal();
 	ASSERT_EQ("", gTest.getOperations());
@@ -186,12 +186,12 @@ TEST(GoalUndoTest, addOpundoOpUndoGoal)
 TEST(GoalUndoTest, CheckingGoalWithNoOperation)
 {
 	GoalUndo gTest;
-	gTest.addOperation("goalOne", "operationOne");
-	gTest.addOperation("operationTwo");
+	gTest.addOperation("CompleteMasters", "GettingAdmitted");
+	gTest.addOperation("PassPrerequisites");
 	gTest.undoGoal();
-	gTest.addOperation("Goal1", "operation1");
-	gTest.addOperation("operation2");
-	gTest.undoOperation("operationTwo");
+	gTest.addOperation("CompleteUnderGrad", "CompleteSchooling");
+	gTest.addOperation("GetGoodGrades");
+	gTest.undoOperation("PassPrerequisites");
 	gTest.undoOperation();
 	gTest.undoOperation();
 	ASSERT_EQ("", gTest.getOperations());
@@ -200,7 +200,7 @@ TEST(GoalUndoTest, CheckingGoalWithNoOperation)
 TEST(GoalUndoTest, undoGoalSingle)
 {
 	GoalUndo gTest;
-	gTest.addOperation("thirdOperation");
+	gTest.addOperation("WriteTestCases");
 	gTest.undoGoal();
 	ASSERT_EQ("", gTest.getOperations());
 }
@@ -208,23 +208,23 @@ TEST(GoalUndoTest, undoGoalSingle)
 TEST(GoalUndoTest, getGoalWithUndoGoal)
 {
 	GoalUndo gTest;
-	gTest.addOperation("goalOne", "operationOne");
+	gTest.addOperation("BuildRoom", "BuildFoundation");
 	gTest.addOperation("operationTwo");
-	gTest.addOperation("goalTwo", "operationOne");
+	gTest.addOperation("goalTwo", "BuildFoundation");
 	gTest.addOperation("operationThree");
 	gTest.addOperation("operationFour");
 	gTest.undoOperation("operationThree");
 	gTest.undoOperation();
 	gTest.undoGoal();
-	ASSERT_EQ("goalOne", gTest.getGoal());
+	ASSERT_EQ("BuildRoom", gTest.getGoal());
 }
 
 TEST(GoalUndoTest, getGoalEmptyWithUndoGoal)
 {
 	GoalUndo gTest;
-	gTest.addOperation("goalOne", "operationOne");
-	gTest.addOperation("operationThree");
-	gTest.addOperation("operationFour");
+	gTest.addOperation("BuildHome", "BuildFoundation");
+	gTest.addOperation("BuildWall");
+	gTest.addOperation("FuxWindowsDoors");
 	gTest.undoOperation();
 	gTest.undoGoal();
 	ASSERT_EQ("", gTest.getGoal());
@@ -233,30 +233,30 @@ TEST(GoalUndoTest, getGoalEmptyWithUndoGoal)
 TEST(GoalUndoTest, getGoalAfterUndoGoal)
 {
 	GoalUndo gTest;
-	gTest.addOperation("goalOne", "operationOne");
-	gTest.addOperation("operationThree");
-	gTest.addOperation("operationFour");
+	gTest.addOperation("BuildBike", "BuildChassis");
+	gTest.addOperation("BuildEngine");
+	gTest.addOperation("FixTyre");
 	gTest.undoOperation();
 	gTest.undoGoal();
-	gTest.addOperation("goal1", "operation1");
-	ASSERT_EQ("goal1", gTest.getGoal());
+	gTest.addOperation("BuildCar", "BuildChassis");
+	ASSERT_EQ("BuildCar", gTest.getGoal());
 }
 
 TEST(GoalUndoTest, undoOAllperationsLeavingGoal)
 {
 	GoalUndo gTest;
-	gTest.addOperation("goalOne", "operationOne");
-	gTest.addOperation("operationFour");
+	gTest.addOperation("BuildPC", "getComponents");
+	gTest.addOperation("InterconnectComponents");
 	gTest.undoOperation();
-	gTest.undoOperation("operationOne");
-	ASSERT_EQ("goalOne", gTest.getGoal());
+	gTest.undoOperation("getComponents");
+	ASSERT_EQ("BuildPC", gTest.getGoal());
 }
 
 TEST(GoalUndoTest, errorInGetGoal)
 {
 	GoalUndo gTest;
-	gTest.addOperation("goalOne", "operationOne");
-	gTest.undoOperation("operationOne");
+	gTest.addOperation("TravelAroundTheWorld", "EarnMoney");
+	gTest.undoOperation("EarnMoney");
 	ASSERT_EQ("", gTest.getGoal());
 }
 
