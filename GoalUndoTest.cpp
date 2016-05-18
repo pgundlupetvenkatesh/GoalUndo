@@ -14,47 +14,54 @@ class GoalUndoTest : public ::testing::Test
 		virtual void TearDown(){}
 };
 
-TEST(GoalUndoTest, getGoalEmpty)
+TEST(GoalUndoTest, getGoalEmpty)	//Checking for Empty Goal
 {
 	GoalUndo gTest;
 	ASSERT_EQ("", gTest.getGoal());
 }
 
-TEST(GoalUndoTest, getOperationsEmpty)
+TEST(GoalUndoTest, getOperationsEmpty)	//Checking for empty operations
 {
 	GoalUndo gTest;
 	ASSERT_EQ("", gTest.getOperations());
 }
 
-TEST(GoalUndoTest, getOperationsValisGoalInvalidOperation)
+TEST(GoalUndoTest, getOperationsValidGoalInvalidOperation)	//A Goal without operation. Trying to get the operation name.
 {
 	GoalUndo gTest;
 	gTest.addOperation("BuildBike", "");
 	ASSERT_EQ("", gTest.getOperations());
 }
 
-TEST(GoalUndoTest, getOperationsInvalisGoalValidOperation)
+TEST(GoalUndoTest, getGoalValidGoalInvalidOperation)	//A Goal without operation. Trying to get the Goal name.
+{
+	GoalUndo gTest;
+	gTest.addOperation("BuildBike", "");
+	ASSERT_EQ("", gTest.getGoal());
+}
+
+TEST(GoalUndoTest, getOperationsInvalidGoalValidOperation)	//An operation without a goal and trying to get the operation name.
 {
 	GoalUndo gTest;
 	gTest.addOperation("", "FixTyre");
 	ASSERT_EQ("", gTest.getOperations());
 }
 
-TEST(GoalUndoTest, getOperationsInvalisGoalInvalidOperation)
+TEST(GoalUndoTest, getOperationsInvalidGoalInvalidOperation)	//Neither Goal or Operation. Trying for not-equal assertion.
 {
 	GoalUndo gTest;
 	gTest.addOperation("", "");
 	ASSERT_NE("FixTyre", gTest.getOperations());
 }
 
-TEST(GoalUndoTest, getOperationsFirstGoalFirstOperation)
+TEST(GoalUndoTest, getOperationsFirstGoalFirstOperation)	//Verifying operation name.
 {
 	GoalUndo gTest;
 	gTest.addOperation("BuildCar", "FixHeadLamps");
 	ASSERT_EQ("FixHeadLamps", gTest.getOperations());
 }
 
-TEST(GoalUndoTest, getOperationsDuplicateGoalUniqueOperation)
+TEST(GoalUndoTest, getOperationsDuplicateGoalUniqueOperation)	//Having multiple Goals with unique operation names and asserting operation
 {
 	GoalUndo gTest;
 	gTest.addOperation("BuildMotorBike", "FixTyre");
@@ -62,7 +69,7 @@ TEST(GoalUndoTest, getOperationsDuplicateGoalUniqueOperation)
 	ASSERT_EQ("BuildFoundation", gTest.getOperations());
 }
 
-TEST(GoalUndoTest, getOperationsOneGoal2Operation)
+TEST(GoalUndoTest, getOperationsOneGoal2Operation)	//Two operations having same goal, and getting all operation names.
 {
 	GoalUndo gTest;
 	gTest.addOperation("BuildHome", "BuildFoundation");
@@ -70,42 +77,42 @@ TEST(GoalUndoTest, getOperationsOneGoal2Operation)
 	ASSERT_EQ("BuildFoundation buildSupportingBeams", gTest.getOperations());
 }
 
-TEST(GoalUndoTest, invalidAddOperation)
+TEST(GoalUndoTest, invalidAddOperation)		//Adding invalid operation and asserting the same
 {
 	GoalUndo gTest;
 	gTest.addOperation("");
 	ASSERT_EQ("", gTest.getOperations());
 }
 
-TEST(GoalUndoTest, newAddOperationSameGoal)
+TEST(GoalUndoTest, newAddOperationSameGoal)	//Adding just operation name and verifying the same
 {
 	GoalUndo gTest;
 	gTest.addOperation("IgniteFire");
 	ASSERT_EQ("IgniteFire", gTest.getOperations());
 }
 
-TEST(GoalUndoTest, validgetGoal)
+TEST(GoalUndoTest, validgetGoal)	//Adding Goal and Operation. Verifying goal name.
 {
 	GoalUndo gTest;
 	gTest.addOperation("ReachIndia", "BookFlightTickets");
 	ASSERT_EQ("ReachIndia", gTest.getGoal());
 }
 
-TEST(GoalUndoTest, emptygetGoalWithOperation)
+TEST(GoalUndoTest, emptygetGoalWithOperation)	//An operation without a goal and trying to get the Goal name.
 {
 	GoalUndo gTest;
 	gTest.addOperation("", "HireCab");
 	ASSERT_EQ("", gTest.getGoal());
 }
 
-TEST(GoalUndoTest, undoOperationWithoutParam)
+TEST(GoalUndoTest, undoOperationWithoutParam)	//undo operation without adding one and asserting for the same.
 {
 	GoalUndo gTest;
 	gTest.undoOperation();
 	ASSERT_EQ("", gTest.getOperations());
 }
 
-TEST(GoalUndoTest, undoOperationWithoutParamAndGoals)
+TEST(GoalUndoTest, undoOperationWithoutParamAndGoals)	//Undo operation without parameter
 {
 	GoalUndo gTest;
 	gTest.addOperation("BuildHome", "BuildFoundation");
@@ -115,7 +122,7 @@ TEST(GoalUndoTest, undoOperationWithoutParamAndGoals)
 	ASSERT_EQ("BuildFoundation BuildSupportingBeam", gTest.getOperations());
 }
 
-TEST(GoalUndoTest, undoOperationWithoutParamAndOneGoal)
+TEST(GoalUndoTest, undoOperationWithoutParamAndOneGoal)	//Undo operation and assert for the same.
 {
 	GoalUndo gTest;
 	gTest.addOperation("StartANewLife", "ErasePast");
@@ -123,14 +130,14 @@ TEST(GoalUndoTest, undoOperationWithoutParamAndOneGoal)
 	ASSERT_EQ("", gTest.getOperations());
 }
 
-TEST(GoalUndoTest, undoOperationEmptyWithoutGoal)
+TEST(GoalUndoTest, undoOperationEmptyWithoutGoal)	//Undo operation empty string
 {
 	GoalUndo gTest;
 	gTest.undoOperation("");
 	ASSERT_EQ("", gTest.getOperations());
 }
 
-TEST(GoalUndoTest, undoOperation)
+TEST(GoalUndoTest, undoOperation)	//Adding operations for the same goal and undoing it. asserting for operation names.
 {
 	GoalUndo gTest;
 	gTest.addOperation("BuildBike", "FixTyre");
@@ -140,7 +147,7 @@ TEST(GoalUndoTest, undoOperation)
 	ASSERT_EQ("FixTyre PaintJob", gTest.getOperations());
 }
 
-TEST(GoalUndoTest, undoInvalidOperation)
+TEST(GoalUndoTest, undoInvalidOperation)	//Adding operations to the same goal and undoing an invalid operation.
 {
 	GoalUndo gTest;
 	gTest.addOperation("BuildCar", "BuildEngine");
@@ -150,7 +157,7 @@ TEST(GoalUndoTest, undoInvalidOperation)
 	ASSERT_EQ("BuildEngine BuildChassis BuildBody", gTest.getOperations());
 }
 
-TEST(GoalUndoTest, undoOperationWithMultipleGoals)
+TEST(GoalUndoTest, undoOperationWithMultipleGoals)	//Adding multiple goals and opearions and undoing operations
 {
 	GoalUndo gTest;
 	gTest.addOperation("BuildHome", "BuildWall");
@@ -163,14 +170,14 @@ TEST(GoalUndoTest, undoOperationWithMultipleGoals)
 	ASSERT_NE("BuildWall BuildSupportingBeam", gTest.getOperations());
 }
 
-TEST(GoalUndoTest, undoGoalEmpty)
+TEST(GoalUndoTest, undoGoalEmpty)	//undo Goal and assert for operations
 {
 	GoalUndo gTest;
 	gTest.undoGoal();
 	ASSERT_EQ("", gTest.getOperations());
 }
 
-TEST(GoalUndoTest, addOpundoOpUndoGoal)
+TEST(GoalUndoTest, addOpundoOpUndoGoal)	//Adding opearions to a goal and undoing opeartions and goal. Asserting for opeartions.
 {
 	GoalUndo gTest;
 	gTest.addOperation("BuildMotorBike", "BuildChassis");
@@ -197,7 +204,7 @@ TEST(GoalUndoTest, CheckingGoalWithNoOperation)
 	ASSERT_EQ("", gTest.getOperations());
 }
 
-TEST(GoalUndoTest, undoGoalSingle)
+TEST(GoalUndoTest, undoGoalSingle)	//Adding operation and undoing goal. Asserting for operation.
 {
 	GoalUndo gTest;
 	gTest.addOperation("WriteTestCases");
@@ -205,7 +212,7 @@ TEST(GoalUndoTest, undoGoalSingle)
 	ASSERT_EQ("", gTest.getOperations());
 }
 
-TEST(GoalUndoTest, getGoalWithUndoGoal)
+TEST(GoalUndoTest, getGoalWithUndoGoal)	//Adding miultiple goals and operations. Undoing goals and operations and asserting goal.
 {
 	GoalUndo gTest;
 	gTest.addOperation("BuildRoom", "BuildFoundation");
@@ -230,7 +237,7 @@ TEST(GoalUndoTest, getGoalEmptyWithUndoGoal)
 	ASSERT_EQ("", gTest.getGoal());
 }
 
-TEST(GoalUndoTest, getGoalAfterUndoGoal)
+TEST(GoalUndoTest, getGoalAfterUndoGoal)	//Adding operations, undoing it and again adding operations. Asserting for Goal.
 {
 	GoalUndo gTest;
 	gTest.addOperation("BuildBike", "BuildChassis");
@@ -242,7 +249,7 @@ TEST(GoalUndoTest, getGoalAfterUndoGoal)
 	ASSERT_EQ("BuildCar", gTest.getGoal());
 }
 
-TEST(GoalUndoTest, undoOAllperationsLeavingGoal)
+TEST(GoalUndoTest, undoAllOperationsLeavingGoal)
 {
 	GoalUndo gTest;
 	gTest.addOperation("BuildPC", "getComponents");
@@ -252,7 +259,7 @@ TEST(GoalUndoTest, undoOAllperationsLeavingGoal)
 	ASSERT_EQ("BuildPC", gTest.getGoal());
 }
 
-TEST(GoalUndoTest, errorInGetGoal)
+TEST(GoalUndoTest, errorInGetGoal)	//Test case fails when added operation and undoing the same operation. Asserting for a goal name.
 {
 	GoalUndo gTest;
 	gTest.addOperation("TravelAroundTheWorld", "EarnMoney");
@@ -260,7 +267,17 @@ TEST(GoalUndoTest, errorInGetGoal)
 	ASSERT_EQ("", gTest.getGoal());
 }
 
-/*TEST(GoalUndoTest, segFaultGetGoal)
+TEST(GoalUndoTest, undoOperationGoalAssertForGoal)	//Adding an operation undoing it and getting Goal
+{
+	GoalUndo gTest;
+	gTest.addOperation("getComponents");
+	gTest.addOperation("BuildPC", "InterconnectComponents");
+	gTest.undoOperation();
+	//gTest.undoGoal();
+	ASSERT_EQ("getComponents", gTest.getGoal());
+}
+
+/*TEST(GoalUndoTest, segFaultGetGoal)	//Gives a seg fault
 {
 	GoalUndo gTest;
 	gTest.addOperation("operationOne");
